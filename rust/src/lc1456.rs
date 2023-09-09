@@ -1,4 +1,4 @@
-fn max_vowels(s: String, k: i32) -> i32 {
+pub fn max_vowels(s: String, k: i32) -> i32 {
     let s = s.as_bytes();
 
     s.iter()
