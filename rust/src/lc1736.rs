@@ -1,22 +1,17 @@
 pub fn maximum_time(time: String) -> String {
-    let time_b = time.as_bytes();
-    let indexes = time_b.iter().enumerate().filter(|(_, &c)| c == b'?');
+    let time = time.as_bytes();
 
-    let substitutions = indexes
-        .filter_map(|x| match x {
-            (4, _) => Some((4, b'9')),
-            (3, _) => Some((3, b'5')),
-            (1, _) if time_b[0] == b'2' => Some((1, b'3')),
-            (1, _) => Some((1, b'9')),
-            (0, _) => Some((0, b'2')),
-            _ => None,
-        })
-        .fold(time_b, |mut t, (i, c)| {
-            t[i] = c;
-            t
-        });
+    let substitutions = time.iter().enumerate().map(|x| match x {
+        (0, b'?') if time[1] > b'3' && b'9' >= time[1] => b'1',
+        (0, b'?') => b'2',
+        (1, b'?') if time[0] == b'2' || time[0] == b'?' => b'3',
+        (1, b'?') => b'9',
+        (3, b'?') => b'5',
+        (4, b'?') => b'9',
+        (_, c) => *c,
+    });
 
-    todo!()
+    String::from_utf8(substitutions.collect()).unwrap()
 }
 
 #[cfg(test)]
