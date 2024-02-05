@@ -13,8 +13,10 @@ namespace Pattern
 
         public bool Matches()
         {
-            if(Pattern.Count() != Words.Length)
+            if (Pattern.Length != Words.Length)
+            {
                 return false;
+            }
 
             var tupleList = InitTuples();
             var dict = new Dictionary<char, string>();
@@ -29,10 +31,12 @@ namespace Pattern
                 else
                     dict.Add(item.Item1, item.Item2);
             }
-            return dict.GroupBy(e=> e.Key).Count() == dict.GroupBy(e => e.Value).Count();
+            return dict.GroupBy(e => e.Key).Count() == dict.GroupBy(e => e.Value).Count();
         }
+
         private string Pattern { get; }
         private string[] Words { get; }
+
         private List<(char, string)> InitTuples()
         {
             return Pattern.Zip(Words, (patternLetter, word) => (patternLetter, word)).ToList();
