@@ -8,7 +8,7 @@ pub fn is_palindrome(x: i32) -> bool {
 mod tests {
     use std::ops::Not;
 
-    use crate::lc9::is_palindrome;
+    use crate::lc0009::is_palindrome;
 
     #[test]
     fn tests() {
