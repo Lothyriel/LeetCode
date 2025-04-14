@@ -6,14 +6,12 @@ pub fn is_palindrome(x: i32) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use std::ops::Not;
-
-    use crate::lc0009::is_palindrome;
+    use super::*;
 
     #[test]
     fn tests() {
         assert!(is_palindrome(121));
-        assert!(is_palindrome(-121));
-        assert!(is_palindrome(10).not());
+        assert!(!is_palindrome(-121));
+        assert!(!is_palindrome(10));
     }
 }
