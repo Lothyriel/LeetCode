@@ -1,5 +1,7 @@
 using System.Text;
 
+namespace _415;
+
 public class Solution
 {
   public static string AddStrings(string num1, string num2)
