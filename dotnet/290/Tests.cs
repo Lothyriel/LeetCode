@@ -10,7 +10,7 @@ namespace _290
     [TestCase("aaa", "aa aa aa aa", false)]
     public void Test(string pattern, string input, bool expectedResult)
     {
-      var patternMatcher = new PatternMatching(pattern, input);
+      var patternMatcher = new Solution(pattern, input);
       var isMatch = patternMatcher.Matches();
       Assert.That(isMatch, Is.EqualTo(expectedResult));
     }

@@ -1,8 +1,8 @@
 ﻿namespace _290;
 
-public class PatternMatching
+public class Solution
 {
-  public PatternMatching(string pattern, string words)
+  public Solution(string pattern, string words)
   {
     Pattern = pattern;
     Words = words.Split(" ");
