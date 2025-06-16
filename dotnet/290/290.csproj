@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <RootNamespace>_290</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

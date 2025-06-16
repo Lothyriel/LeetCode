@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <RootNamespace>_17</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
