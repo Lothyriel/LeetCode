@@ -3,8 +3,12 @@
 public class Tests
 {
     [Test]
-    public void Test1()
+    [TestCase("antagonist", "stagnation", true)]
+    [TestCase("joao", "vitor", false)]
+    [TestCase("aa", "a", false)]
+    [TestCase("rat", "car", false)]
+    public void Leetcode(string a, string b, bool expected)
     {
-        Assert.Pass();
+        Assert.That(Solution.IsPermutation(a,b), Is.EqualTo(expected));
     }
 }

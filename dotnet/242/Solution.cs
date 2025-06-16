@@ -16,8 +16,10 @@ public class Solution
                     return false;
                 }
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         return true;
@@ -29,8 +31,7 @@ public class Solution
 
         foreach (var letter in word)
         {
-            var letterFrequency = freq.GetValueOrDefault(letter);
-            letterFrequency++;
+            freq[letter] = freq.GetValueOrDefault(letter) + 1;
         }
 
         return freq;
