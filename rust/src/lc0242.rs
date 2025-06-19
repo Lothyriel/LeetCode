@@ -4,6 +4,13 @@ pub fn is_anagram_map(s: String, t: String) -> bool {
     get_char_freq(&s) == get_char_freq(&t)
 }
 
+fn get_char_freq(s: &str) -> HashMap<u8, u16> {
+    s.bytes().fold(HashMap::new(), |mut acc, x| {
+        *acc.entry(x).or_default() += 1;
+        acc
+    })
+}
+
 pub fn is_anagram_array(s: String, t: String) -> bool {
     if s.len() != t.len() {
         return false;
@@ -19,9 +26,14 @@ pub fn is_anagram_array(s: String, t: String) -> bool {
     freq.iter().all(|&x| x == 0)
 }
 
-fn get_char_freq(s: &str) -> HashMap<u8, u16> {
-    s.bytes().fold(HashMap::new(), |mut acc, x| {
-        *acc.entry(x).or_default() += 1;
-        acc
-    })
+#[cfg(test)]
+mod tests {
+    use crate::lc0242::is_anagram_map;
+
+    #[test]
+    fn tests() {
+        assert!(is_anagram_map("anagram".to_owned(), "nagaram".to_owned()));
+        assert!(!is_anagram_map("rat".to_owned(), "car".to_owned()));
+        assert!(!is_anagram_map("a".to_owned(), "ab".to_owned()));
+    }
 }
