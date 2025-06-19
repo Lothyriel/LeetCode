@@ -7,22 +7,7 @@ public class Solution
         var aFreq = LettersFrequency(a);
         var bFreq = LettersFrequency(b);
 
-        foreach (var (letter, freq) in aFreq)
-        {
-            if (bFreq.TryGetValue(letter, out var bLetterFreq))
-            {
-                if (bLetterFreq != freq)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return aFreq.Count == bFreq.Count && !aFreq.Except(bFreq).Any();
     }
 
     private static Dictionary<char, int> LettersFrequency(string word)
