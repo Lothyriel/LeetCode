@@ -12,13 +12,12 @@ public class Solution
 
     private static Dictionary<char, int> LettersFrequency(string word)
     {
-        var freq = new Dictionary<char, int>();
+        return word.Aggregate(new Dictionary<char, int>(), Accumulator);
 
-        foreach (var letter in word)
+        static Dictionary<char, int> Accumulator(Dictionary<char, int> acc, char letter)
         {
-            freq[letter] = freq.GetValueOrDefault(letter) + 1;
+            acc[letter] = acc.GetValueOrDefault(letter) + 1;
+            return acc;
         }
-
-        return freq;
     }
 }
