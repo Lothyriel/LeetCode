@@ -1,36 +1,24 @@
 pub fn can_complete_circuit(gas: &[i32], cost: &[i32]) -> i32 {
-    let stations = gas.len();
+    let mut total_tank = 0;
+    let mut cur_tank = 0;
+    let mut start = 0;
 
-    'outer: for i in 0..stations {
-        let cost_to_next = cost[i];
+    for i in 0..gas.len() {
+        let gain = gas[i] - cost[i];
+        total_tank += gain;
+        cur_tank += gain;
 
-        let refuel = gas[i];
-
-        if cost_to_next > refuel {
-            continue;
+        if cur_tank < 0 {
+            cur_tank = 0;
+            start = i as i32 + 1;
         }
-
-        let start = i;
-        let mut tank = 0;
-
-        for i in start..start + stations {
-            let wrap_idx = i % stations;
-            let cost_to_next = cost[wrap_idx];
-            let refuel = gas[wrap_idx];
-
-            tank += refuel;
-
-            if cost_to_next > tank {
-                continue 'outer;
-            }
-
-            tank -= cost_to_next;
-        }
-
-        return start as i32;
     }
 
-    -1
+    if total_tank < 0 {
+        -1
+    } else {
+        start
+    }
 }
 
 #[cfg(test)]
