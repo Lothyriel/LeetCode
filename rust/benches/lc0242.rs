@@ -1,8 +1,8 @@
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::Criterion;
 
 use leetcode::lc0242::{is_anagram_array, is_anagram_map};
 
-fn is_anagram(c: &mut Criterion) {
+pub fn bench(c: &mut Criterion) {
     c.bench_function("is_anagram map small", |b| {
         b.iter(|| is_anagram_map("listen".to_string(), "silent".to_string()))
     });
@@ -27,6 +27,3 @@ fn is_anagram(c: &mut Criterion) {
         b.iter(|| is_anagram_array(s.clone(), t.clone()))
     });
 }
-
-criterion_group!(benches, is_anagram);
-criterion_main!(benches);

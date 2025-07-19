@@ -11,5 +11,5 @@ edition = "2021"
 criterion = "0.6.0"
 
 [[bench]]
-name = "lc0242"
+name = "benches"
 harness = false
