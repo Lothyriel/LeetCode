@@ -32,7 +32,7 @@ pub fn get_cost(quality: &[i32], wage: &[i32], k: usize) -> f64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::lc0857::get_cost;
+    use super::*;
 
     #[test]
     fn example_1() {

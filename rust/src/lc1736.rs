@@ -16,7 +16,7 @@ pub fn maximum_time(time: String) -> String {
 
 #[cfg(test)]
 mod tests {
-    use crate::lc1736::maximum_time;
+    use super::*;
 
     #[test]
     fn tests() {

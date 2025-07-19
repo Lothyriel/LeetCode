@@ -32,7 +32,7 @@ pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {
 
 #[cfg(test)]
 mod tests {
-    use crate::lc0239::max_sliding_window;
+    use super::*;
 
     #[test]
     fn tests() {

@@ -26,7 +26,7 @@ fn is_vowel(char: u8) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::lc1456::max_vowels;
+    use super::*;
 
     #[test]
     fn tests() {

@@ -16,7 +16,7 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
 
 #[cfg(test)]
 mod tests {
-    use crate::lc0001::two_sum;
+    use super::*;
 
     #[test]
     fn tests() {

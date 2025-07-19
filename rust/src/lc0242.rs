@@ -28,7 +28,7 @@ pub fn is_anagram_array(s: String, t: String) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::lc0242::is_anagram_map;
+    use super::*;
 
     #[test]
     fn tests() {
