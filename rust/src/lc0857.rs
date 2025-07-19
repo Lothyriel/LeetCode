@@ -13,7 +13,7 @@ pub fn get_cost(quality: &[i32], wage: &[i32], k: usize) -> f64 {
     let mut total_quality = 0;
     let mut min_cost = f64::INFINITY;
 
-    for (&q, r) in &workers {
+    for (q, r) in workers {
         k_workers.push(q);
         total_quality += q;
 
