@@ -5,10 +5,10 @@ pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {
     let mut q = VecDeque::new();
 
     for (i, &c) in nums.iter().enumerate() {
-        if let Some(&p) = q.front() {
-            if p as i32 <= i as i32 - k {
-                q.pop_front();
-            }
+        if let Some(&p) = q.front()
+            && p as i32 <= i as i32 - k
+        {
+            q.pop_front();
         }
 
         while let Some(&p) = q.back() {
