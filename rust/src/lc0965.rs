@@ -1,39 +1,41 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-pub fn is_unival_tree(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-    if let Some(root) = root {
-        let root = root.borrow();
+pub fn is_unival_tree(root: Option<Node>) -> bool {
+    let Some(root) = root else {
+        return true;
+    };
 
-        return dfs(root.right.clone(), root.val) && dfs(root.left.clone(), root.val);
-    }
+    let val = root.borrow().val;
 
-    true
+    dfs(Some(&root), val)
 }
 
-fn dfs(node: Option<Rc<RefCell<TreeNode>>>, num: i32) -> bool {
-    if let Some(root) = node {
-        let node = root.borrow();
+fn dfs(node: Option<&Node>, expected: i32) -> bool {
+    let Some(node) = node else {
+        return true;
+    };
 
-        if node.val != num {
-            return false;
-        }
+    let node = node.borrow();
 
-        return dfs(node.right.clone(), num) && dfs(node.left.clone(), num);
+    if node.val != expected {
+        return false;
     }
 
-    true
+    dfs(node.right.as_ref(), expected) && dfs(node.left.as_ref(), expected)
 }
+
+type Node = Rc<RefCell<TreeNode>>;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct TreeNode {
     pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
+    pub left: Option<Node>,
+    pub right: Option<Node>,
 }
 
 impl TreeNode {
-    pub fn new(val: i32) -> Option<Rc<RefCell<Self>>> {
+    pub fn new(val: i32) -> Option<Node> {
         Some(Rc::new(RefCell::new(TreeNode {
             val,
             left: None,
@@ -42,7 +44,7 @@ impl TreeNode {
     }
 }
 
-impl From<TreeNode> for Option<Rc<RefCell<TreeNode>>> {
+impl From<TreeNode> for Option<Node> {
     fn from(value: TreeNode) -> Self {
         Some(Rc::new(RefCell::new(value)))
     }
