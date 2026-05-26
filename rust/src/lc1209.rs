@@ -1,55 +1,35 @@
 pub fn remove_duplicates(s: String, k: i32) -> String {
-    let (column, _) = candy_crush(s.chars().collect(), k as usize);
+    let mut stack = vec![];
 
-    column.into_iter().collect()
-}
+    for ch in s.bytes() {
+        let same = stack.last_mut().filter(|(top, _)| *top == ch);
 
-fn candy_crush(mut column: Vec<char>, k: usize) -> (Vec<char>, usize) {
-    let mut groups_removed = 0;
+        if let Some((_, count)) = same {
+            *count += 1;
 
-    loop {
-        let mut current_candy = column[0];
-        let mut current_count = 1;
-        let mut start = 0;
-        let mut found = false;
-
-        for i in 1..column.len() {
-            let candy = column[i];
-            if current_candy == candy {
-                current_count += 1;
-            } else if current_count >= k {
-                found = true;
-                break;
-            } else {
-                current_candy = candy;
-                start = i;
-                current_count = 1;
+            if *count == k {
+                stack.pop();
             }
-        }
 
-        if !found {
-            return (column, groups_removed);
-        } else {
-            column = get_new_state(column, start, current_count);
-            groups_removed += 1;
-        }
-    }
-}
-
-fn get_new_state(column: Vec<char>, start: usize, current_count: usize) -> Vec<char> {
-    let mut new_column = vec![];
-
-    for i in 0..column.len() {
-        let candy = column[i];
-
-        if i >= start && i < start + current_count {
             continue;
         }
 
-        new_column.push(candy);
+        stack.push((ch, 1));
     }
 
-    new_column
+    build_result(&stack)
+}
+
+fn build_result(stack: &[(u8, i32)]) -> String {
+    let mut result = String::new();
+
+    for (ch, count) in stack {
+        for _ in 0..*count {
+            result.push(*ch as char);
+        }
+    }
+
+    result
 }
 
 #[cfg(test)]
@@ -71,3 +51,4 @@ mod tests {
         );
     }
 }
+
