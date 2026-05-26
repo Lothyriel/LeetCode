@@ -4,14 +4,14 @@ pub fn remove_duplicates(s: String, k: i32) -> String {
     column.into_iter().collect()
 }
 
-fn candy_crush(column: Vec<char>, k: usize) -> (Vec<char>, usize) {
+fn candy_crush(mut column: Vec<char>, k: usize) -> (Vec<char>, usize) {
     let mut current_count = 0;
     let mut current_candy = column[0];
     let mut start = 0;
     let mut groups_removed = 0;
 
     loop {
-        for candy in &column {
+        for &candy in &column {
             if current_candy == candy {
                 current_count += 1;
             } else if current_count >= k {
@@ -46,7 +46,7 @@ fn get_new_state(column: Vec<char>, start: usize, current_count: usize) -> Vec<c
         new_column.push(candy);
     }
 
-    new_column;
+    new_column
 }
 
 #[cfg(test)]
