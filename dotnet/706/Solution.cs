@@ -1,96 +1,106 @@
 namespace _706;
 
-public class HashTable<K : IHashable, V> {
-    private List<List<(K, V)>> _items = new List<V>(8);
+public class HashTable<TKey, TValue> where TKey : IHashable<TKey>
+{
+    private List<List<(TKey Key, TValue Value, long Hash)>> _items = Enumerable.Range(0, 8)
+        .Select(_ => new List<(TKey, TValue, long)>())
+        .ToList();
 
-    public bool TryAdd(K key, T value)
+    private int _count;
+    
+    private const float LoadFactor = 0.75f;
+
+    public bool TryAdd(TKey key, TValue value)
     {
-        var idx = Hash(key);
-
-        var item = _items[idx];
-
-        if (item is null)
-        {
-            _items[idx] = item;
-            return false;
-        }
-        else
-        {
-            _items[idx] = item;
-            return true;
-        }
-    }
-
-    public T? Get(K key)
-    {
-        var idx = Hash(key);
-
-        if (item is null)
-        {
-            return null;
-        }
-        else
-        {
-            var items = _items[idx];
-
-            foreach (var (k, value) in items)
-            {
-                if (key == k)
-                {
-                    return value;
-                }
-            }
-
-            return null;
-        }
-    }
-
-    public T? Remove(K key)
-    {
-        var idx = Hash(key);
-
-        if (item is null)
-        {
-            return null;
-        }
-        else
-        {
-            var item = _items[idx];
-            _items[idx] = null;
-            return item;
-        }
-    }
-
-    public int Hash(K key)
-    {
-        var hash = key.Hash();
-        var idx = hash ^ _items.Length;
-
-        if (_items[idx].Length > 20)
+        if ((float)_count / _items.Count > LoadFactor)
         {
             Grow();
         }
+        
+        var (bucketIdx, hash) = Hash(key);
+        var bucket = _items[bucketIdx];
 
-        return Hash(key);
+        if (bucket.Any(e => e.Key.Compare(key)))
+        {
+            return false;
+        }
+
+        bucket.Add((key, value, hash));
+        _count++;
+        return true;
     }
 
-    public Grow()
+    public bool TryGet(TKey key, out TValue? value)
     {
-        var temp = new List<V>(_items.Length * 2);
+        var (bucketIdx, _) = Hash(key);
+        var bucket = _items[bucketIdx];
+        value = default;
+        
+        var idx = bucket.FindIndex(e => e.Key.Compare(key));
 
-        for (var i = 0; i < _items.Length; i++)
+        if (idx is -1)
         {
-            var hash = _items[i]
-            var idx = hash ^ _items.Length;
+            return false;
+        }
 
-            temp[i] = _items[i];
+        value = bucket[idx].Value;
+        return true;
+    }
+
+    public TValue? Remove(TKey key)
+    {
+        var (bucketIdx, _) = Hash(key);
+        var bucket = _items[bucketIdx];
+        
+        var idx = bucket.FindIndex(e => e.Key.Compare(key));
+
+        if (idx is -1)
+        {
+            return default;
+        }
+
+        var entry = bucket[idx];
+
+        // swap remove from bucket to avoid shifting elements
+        var lastIdx = bucket.Count - 1;
+        bucket[idx] = bucket[lastIdx];
+        bucket.RemoveAt(lastIdx);
+
+        _count--;
+        
+        return entry.Value;
+    }
+
+    private (int, long) Hash(TKey key)
+    {
+        var hash = key.Hash();
+        var idx = hash % _items.Count;
+
+        return ((int)idx, hash);
+    }
+
+    private void Grow()
+    {
+        var temp = Enumerable.Range(0, _items.Count * 2)
+            .Select(_ => new List<(TKey, TValue, long)>())
+            .ToList();
+
+        foreach (var bucket in _items)
+        {
+            foreach (var entry in bucket)
+            {
+                var idx = entry.Hash % temp.Count;
+
+                temp[(int)idx].Add(entry);
+            }
         }
 
         _items = temp;
     }
 }
 
-public interface IHashable
+public interface IHashable<in T>
 {
-    int Hash();
+    long Hash();
+    bool Compare(T other);
 }
