@@ -20,3 +20,4 @@ pub mod lc1209;
 pub mod lc1456;
 pub mod lc1736;
 pub mod lc2485;
+pub mod other;
