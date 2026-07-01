@@ -1,3 +1,4 @@
+pub mod open_adressing_map;
 pub mod separate_chain_map;
 
 pub trait Hashable {
